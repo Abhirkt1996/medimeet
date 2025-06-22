@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Medimeet - Full Stack Doctors Appointment Platform 🚀🩺
+
+[Live Demo](https://medimeet-abhi.vercel.app/)
+
+---
+
+## Overview
+
+Medimeet is a modern, fully-featured doctors appointment booking platform built with the latest technologies. It enables patients to seamlessly connect with doctors, schedule appointments, and manage their healthcare all in one place.
+
+Whether you're a patient seeking convenient online healthcare or a doctor managing your appointments and earnings, Medimeet provides a smooth and intuitive experience.
+
+---
+
+## Key Features
+
+- **Patient and Doctor Roles:** Separate dashboards with role-based access control  
+- **Appointment Booking:** Real-time booking with availability calendar and confirmation  
+- **Credit System:** Subscription-based credit allocations for patients to book appointments  
+- **Doctor Verification:** Admin verified doctors to ensure trust and authenticity  
+- **Video Calls:** Integrated Vonage video calling for virtual consultations  
+- **Subscription Plans:** Multiple subscription tiers with monthly credit allotments  
+- **Admin Panel:** Manage doctors, appointments, payouts, and users  
+- **Responsive UI:** Beautiful and accessible UI built with Shadcn UI and Tailwind CSS  
+- **Real-time Notifications:** Updates on appointments and credit changes  
+- **Secure Authentication:** Powered by Clerk for easy and secure sign-in/sign-up flows  
+- **Optimized Performance:** Built on Next.js 15 with Turbopack and deployed on Vercel  
+- **Serverless & Scalable:** Backend powered by Neon (PostgreSQL) and Prisma ORM  
+
+---
+
+## Tech Stack
+
+| Layer               | Technology                     |
+|---------------------|--------------------------------|
+| Framework           | Next.js 15.3.4 (App Router)   |
+| Styling             | Tailwind CSS, Shadcn UI       |
+| Database            | Neon (PostgreSQL) with Prisma |
+| Authentication      | Clerk                         |
+| Real-time Video     | Vonage Video API              |
+| Hosting             | Vercel                       |
+| Deployment Pipeline | Git + GitHub                 |
+
+---
+
+## Screenshots
+
+![App Preview](./Screenshot%202025-06-22%20215433.png)
+
+
+
+
+---
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repo  
+2. Install dependencies with `npm install`  
+3. Set up environment variables for Clerk, Neon, Vonage API keys  
+4. Run the development server: `npm run dev`  
+5. Visit `http://localhost:3000` to explore  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roadmap
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Implement chat messaging between doctors and patients  
+- Add calendar sync with Google Calendar  
+- Enhance video call features with recording  
+- Push notifications for appointments and reminders  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! Feel free to open issues or submit PRs.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+MIT License © 2025 Abhi Kumar
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Explore the future of telehealth with Medimeet today!**  
+[Visit Live Demo](https://medimeet-abhi.vercel.app/)
