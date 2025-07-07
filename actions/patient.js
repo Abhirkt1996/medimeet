@@ -36,7 +36,6 @@ export async function requestPayout(formData) {
       throw new Error("PayPal email is required");
     }
 
-    // Check if doctor has any pending payout requests
     const existingPendingPayout = await db.payout.findFirst({
       where: {
         doctorId: doctor.id,
@@ -45,17 +44,10 @@ export async function requestPayout(formData) {
     });
 
     if (existingPendingPayout) {
-      throw new Error(
-        "You already have a pending payout request. Please wait for it to be processed."
-      );
+      throw new Error("You already have a pending payout request. Please wait for it to be processed.");
     }
 
-    // Get doctor's current credit balance
     const creditCount = doctor.credits;
-
-    if (creditCount === 0) {
-      throw new Error("No credits available for payout");
-    }
 
     if (creditCount < 1) {
       throw new Error("Minimum 1 credit required for payout");
@@ -65,7 +57,6 @@ export async function requestPayout(formData) {
     const platformFee = creditCount * PLATFORM_FEE_PER_CREDIT;
     const netAmount = creditCount * DOCTOR_EARNINGS_PER_CREDIT;
 
-    // Create payout request
     const payout = await db.payout.create({
       data: {
         doctorId: doctor.id,
@@ -145,7 +136,6 @@ export async function getDoctorEarnings() {
       throw new Error("Doctor not found");
     }
 
-    // Get all completed appointments for this doctor
     const completedAppointments = await db.appointment.findMany({
       where: {
         doctorId: doctor.id,
@@ -153,7 +143,6 @@ export async function getDoctorEarnings() {
       },
     });
 
-    // Calculate this month's completed appointments
     const currentMonth = new Date();
     currentMonth.setDate(1);
     currentMonth.setHours(0, 0, 0, 0);
@@ -162,20 +151,12 @@ export async function getDoctorEarnings() {
       (appointment) => new Date(appointment.createdAt) >= currentMonth
     );
 
-    // Use doctor's actual credits from the user model
-    const totalEarnings = doctor.credits * DOCTOR_EARNINGS_PER_CREDIT; // $8 per credit to doctor
+    const totalEarnings = doctor.credits * DOCTOR_EARNINGS_PER_CREDIT;
+    const thisMonthEarnings = thisMonthAppointments.length * 2 * DOCTOR_EARNINGS_PER_CREDIT;
+    const averageEarningsPerMonth = totalEarnings > 0
+      ? totalEarnings / Math.max(1, new Date().getMonth() + 1)
+      : 0;
 
-    // Calculate this month's earnings (2 credits per appointment * $8 per credit)
-    const thisMonthEarnings =
-      thisMonthAppointments.length * 2 * DOCTOR_EARNINGS_PER_CREDIT;
-
-    // Simple average per month calculation
-    const averageEarningsPerMonth =
-      totalEarnings > 0
-        ? totalEarnings / Math.max(1, new Date().getMonth() + 1)
-        : 0;
-
-    // Get current credit balance for payout calculations
     const availableCredits = doctor.credits;
     const availablePayout = availableCredits * DOCTOR_EARNINGS_PER_CREDIT;
 
@@ -191,5 +172,45 @@ export async function getDoctorEarnings() {
     };
   } catch (error) {
     throw new Error("Failed to fetch doctor earnings: " + error.message);
+  }
+}
+
+/**
+ * ✅ Get patient's appointments
+ */
+export async function getPatientAppointments() {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const patient = await db.user.findUnique({
+      where: {
+        clerkUserId: userId,
+        role: "PATIENT",
+      },
+    });
+
+    if (!patient) {
+      throw new Error("Patient not found");
+    }
+
+    const appointments = await db.appointment.findMany({
+      where: {
+        patientId: patient.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        doctor: true,
+      },
+    });
+
+    return { appointments };
+  } catch (error) {
+    throw new Error("Failed to fetch patient appointments: " + error.message);
   }
 }
